@@ -1,0 +1,15 @@
+<div id="quote-view" class="quote-view" th:fragment="quoteView" th:with="quoteIsEditable=${((quote?.status?.type == 'IN_PROCESS') and (anonymousQuote != 'anonymous')) || (quote?.status?.type == 'IN_REVISION')}">
+
+    <div class="col-lg-12">
+        <h1>Quote Details</h1>
+    </div>
+
+    <!-- Quote Items -->
+    <div id="quote-item-section" th:fragment="quote-item-section">
+        <th:block th:include="quote/partials/quoteItemSection" th:with="quote = ${quote}" />
+    </div>
+
+    <!-- Quote Info -->
+    <th:block th:include="quote/partials/quoteInfoSection" th:with="quote = ${quote}" />
+
+</div>

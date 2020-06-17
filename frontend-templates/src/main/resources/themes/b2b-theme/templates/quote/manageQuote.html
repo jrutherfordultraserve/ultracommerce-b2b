@@ -1,0 +1,9 @@
+<th:block layout:decorate="~{layout/checkoutPageLayout}">
+    <head>
+        <title>Quote</title>
+    </head>
+
+    <div id="manage_quote" class="row" layout:fragment="content" th:fragment="ajax">
+        <th:block th:include="quote/partials/quoteView" th:with="quote = ${quote}" />
+    </div>
+</th:block>

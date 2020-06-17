@@ -1,0 +1,25 @@
+<div class="quote-dates-section" th:fragment="quote-dates-section">
+    <span>Quote valid
+        <th:block th:if="${quote.startDate != null and quote.endDate == null}">
+            after
+        </th:block>
+        <th:block th:if="${quote.startDate != null and quote.endDate != null}">
+            from
+        </th:block>
+        <th:block th:if="${quote.startDate == null and quote.endDate != null}">
+            until
+        </th:block>
+    </span>
+
+    <span>
+        <span th:if="${quote.startDate != null}" th:text="${#dates.format(quote.startDate,'MMMM dd, yyyy hh:mm a')}"></span>
+
+        <th:block th:if="${quote.endDate != null}">
+            <th:block th:if="${quote.startDate != null}">
+                through
+            </th:block>
+
+            <span th:text="${#dates.format(quote.endDate,'MMMM dd, yyyy hh:mm a')}"></span>
+        </th:block>
+    </span>
+</div>

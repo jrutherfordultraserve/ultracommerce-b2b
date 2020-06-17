@@ -1,0 +1,22 @@
+<table class="mobile-table table" th:if="${not #lists.isEmpty(quoteList)}">
+    <thead>
+    <tr>
+        <th>Quote Name</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Expiration Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="quote : ${quoteList}" th:object="${quote}" th:attr="data-quote-id=*{id}">
+        <td data-title="Quote Name">
+            <a href="#" class="hidden-xs view-quote-details js-viewQuoteDetails" th:utext="*{name}" data-th-attr="data-quoteid=*{id}, data-url=@{/account/quote/} + *{id}"></a>
+            <a class="visible-xs" th:href="@{*{'/account/quote/'+ id}}" th:utext="*{name}"></a>
+        </td>
+        <td data-title="Total" class="numeric" blc:price="${quote.order.subTotal?.subtract(quote.order.orderAdjustmentsValue)}"></td>
+        <td data-title="Status" th:utext="*{status.friendlyType}"></td>
+        <td data-title="Exp Date" th:utext="${(quote.endDate != null)? #dates.format(quote.endDate, 'MM-dd-yyyy') : 'n/a'}"></td>
+    </tr>
+    </tbody>
+</table>
+<div th:id="'quote-details-' + *{id}" class="order-details-row js-quote-details-container" style="display: none;"></div>

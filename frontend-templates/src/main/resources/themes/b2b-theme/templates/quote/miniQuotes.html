@@ -1,0 +1,40 @@
+<li class="hidden-xs dropdown js-miniQuotes">
+    <th:block th:if="${quoteCount != null and quoteCount > 0}">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons">assignment</i>
+            <span class="cart-count-badge js-quoteItemsCount" th:if="${quoteCount > 0}" th:utext="${quoteCount}"></span>
+        </a>
+        <ul class="dropdown-menu mini-quote-wrapper">
+
+            <th:block th:if="${not #lists.isEmpty(inprocessQuotes)}">
+                <li class="dropdown-header">In Process Quotes</li>
+                <li th:each="quote : ${inprocessQuotes}" th:object="${quote}">
+                    <a th:href="@{'/account/quote/' + ${quote.id}}">
+                        <span th:utext="*{name}"></span>
+                        (<span th:utext="${quote.order.itemCount}"></span>)
+                    </a>
+                </li>
+            </th:block>
+
+            <th:block th:if="${not #lists.isEmpty(acceptedQuotes)}">
+                <li class="dropdown-header">Accepted Quotes</li>
+                <li th:each="quote : ${acceptedQuotes}" th:object="${quote}">
+                    <a th:href="@{'/account/quote/' + ${quote.id}}">
+                        <span th:utext="*{name}"></span>
+                        (<span th:utext="${quote.order.itemCount}"></span>)
+                    </a>
+                </li>
+            </th:block>
+
+            <li>
+                <div></div>
+            </li>
+
+            <li class="mini-quote-action">
+                <a class="btn btn-primary goto-manage-quotes" th:href="@{/account/quote}">Manage All Quotes</a>
+            </li>
+
+        </ul>
+    </th:block>
+
+</li>

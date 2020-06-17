@@ -1,0 +1,58 @@
+<div class="order-details-container">
+    <ul class="order-details-list">
+        <li>
+            <li class="quote-actions">
+                <a class="btn btn-sm" th:if="${(customer.loggedIn and quote.status.type == 'IN_PROCESS') or (#brc.csrMode and quote.status.type == 'IN_REVISION')}" th:href="@{'quote/' + ${quote.id}}">Edit Quote</a>
+                <a class="btn btn-sm" th:if="${(quote?.status?.type == 'REJECTED')||(quote?.status?.type == 'ACCEPTED')}" th:href="@{'quote/' + ${quote.id} + '/modifyQuote'}">Modify Quote</a>
+                <a class="btn btn-sm" th:if="${quote?.status?.type == 'ACCEPTED'and quote?.isActive()}" th:href="@{/checkout/(quoteId=${quote.id})}" id="quote-action-checkout">Checkout</a>
+                <a class="btn btn-sm" th:unless="${quote?.status?.type == 'ARCHIVED'}" th:href="@{'quote/' + ${quote.id} + '/archiveQuote'}" id="quote-action-archive">Archive Quote</a>
+            </li>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h6 th:utext="#{account.orders.items}">Items</h6>
+                    <table class="order-items">
+                        <th:block th:each="quoteitem : ${quote.quoteItems}" th:with="orderItem=${quoteitem.orderItem}">
+                            <tr>
+                                <td th:utext="${orderItem.quantity} + ' ' + #{account.orders.of} + ' ' + ${orderItem.name}"></td>
+                                <td class="price" blc:price="${orderItem.totalPrice}"></td>
+                            </tr>
+                            <tr th:object="${orderItem}"
+                                th:if="${#lists.size(orderItem.orderItemPriceDetails)>=1} and ${#lists.size(orderItem.orderItemPriceDetails[0].orderItemPriceDetailAdjustments)>0}">
+                                <td>
+                                    <div class="js-productOptions productOptions" th:replace="~{catalog/partials/offers :: orderDetails}"></div>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <th:block th:if="${not #lists.isEmpty(quoteitem.quoteItemNotes)}">
+                                <tr class="itemNotes">
+                                    <td></td>
+                                    <td class="itemNotes">
+                                        <th:block th:each="note : ${quoteitem.quoteItemNotes}">
+                                            <span th:utext="${note.note}"></span><br />
+                                        </th:block>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </th:block>
+                        <tr class="shipment-summary merchandise-total">
+                            <td th:utext="#{account.orders.merchandiseTotal}">Merchandise Total:</td>
+                            <td class="price" blc:price="${quote.order.subTotal}"></td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td th:utext="#{account.orders.grandTotal}">Grand Total:</td>
+                            <td class="price" blc:price="${quote.order.total}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </li>
+        <li>
+            <h6>Info</h6>
+            <th:block th:include="quote/partials/quoteDatesSection" th:with="quote = ${quote}" />
+        </li>
+        <li>
+            <th:block th:include="quote/partials/quoteNoteSection" th:with="quote = ${quote}" />
+        </li>
+    </ul>
+</div>

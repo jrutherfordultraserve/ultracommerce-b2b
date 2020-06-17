@@ -1,0 +1,10 @@
+<h2><span th:utext="#{confirmation.success}">Thank You!</span></h2>
+<h3><span th:utext="#{confirmation.orderNum}">Order Confirmation #</span> - <span th:utext="${order.orderNumber}"></span></h3>
+<p class="confirmation-note">
+    <span th:utext="#{confirmation.confirmEmail.toBeSent(${order.emailAddress})}"></span>
+</p>
+<p class="confirmation-note demo" style="margin-top: 20px;" th:if="${'PENDING_APPROVAL' eq order.status.type}">
+    <span class="warning">Your order has been submitted and is currently under review. We've notified the approvers of this account.</span>
+</p>
+
+<th:block th:replace="~{checkout/partials/demoDisclaimer}"></th:block>

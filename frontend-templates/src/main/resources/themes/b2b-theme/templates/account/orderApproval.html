@@ -1,0 +1,113 @@
+<th:block layout:decorate="~{layout/accountLayout}" layout:fragment="content">
+    <div class="card manage-account-form-wrapper js-manageAccountFormWrapper">
+        <h3>Orders Awaiting Approval</h3>
+        <hr />
+
+        <th:block th:if="${#account.customerHasRole('ROLE_ACCOUNT_APPROVER')}">
+            <h4>My Approvals</h4>
+            <div class="order-approvals">
+                <blc:form class="js-order" th:unless="${#lists.isEmpty(myOrders)}" th:action="@{/account/orderApproval/}" th:object="${myPendingOrdersForm}">
+
+                    <div class="table-responsive js-order-approvals-table">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">Approve</th>
+                                <th class="text-center">Reject</th>
+                                <th>Order Number</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Buyer Name</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order,iterStat : ${myOrders}">
+                                <td class="text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" th:name="${'orderApprovalDTOs[' + iterStat.index + '].approved'}"></input>
+                                            <input type="hidden" th:name="${'orderApprovalDTOs[' + iterStat.index + '].orderId'}" th:value="${order.id}"></input>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td class="text-center">
+                                    <a th:href="@{/account/orderApproval/reject/} + ${order.id}">Reject</a>
+                                </td>
+                                <td><a th:href="@{/account/orderApproval/} + ${order.orderNumber}" class="js-viewOrderApprovalDetails" th:utext="${order.orderNumber}"></a></td>
+                                <td th:utext="${#dates.format(order.submitDate, 'MM-dd-yyyy')}"></td>
+                                <td th:utext="${order.status.friendlyType}">Processing</td>
+                                <td th:utext="${order.customer.firstName} +' '+ ${order.customer.lastName}"></td>
+                                <td class="text-right" blc:price="${order.total}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="js-orderDetails order-details"></div>
+                    <input type="submit" class="order-approval-select button primary" value="Approve Selected"/>
+                </blc:form>
+                <p th:if="${#lists.isEmpty(myOrders)}">You have no directly assigned orders to approve.</p>
+            </div>
+            <div th:unless="${#lists.isEmpty(myOrders)}">
+                <a href="">Select All</a> | <a href="">Deselect All</a>
+            </div>
+
+            <h4>Account Approvals</h4>
+            <div class="order-approvals">
+                <blc:form class="js-order" th:unless="${#lists.isEmpty(accountOrders)}" th:action="@{/account/orderApproval}" th:object="${accountPendingOrdersForm}" method="POST">
+
+                    <div class="table-responsive js-order-approvals-table">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">Approve</th>
+                                <th class="text-center">Reject</th>
+                                <th>Order Number</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Buyer Name</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order,iterStat : ${accountOrders}">
+                                <td class="text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" th:name="${'orderApprovalDTOs[' + iterStat.index + '].approved'}"></input>
+                                            <input type="hidden" th:name="${'orderApprovalDTOs[' + iterStat.index + '].orderId'}" th:value="${order.id}"></input>
+                                        </label>
+                                    </div>
+
+                                </td>
+                                <td class="text-center">
+                                    <a th:href="@{/account/orderApproval/reject/} + ${order.id}">Reject</a>
+                                </td>
+                                <td><a th:href="@{/account/orderApproval/} + ${order.orderNumber}" class="js-viewOrderApprovalDetails" th:utext="${order.orderNumber}"></a></td>
+                                <td th:utext="${#dates.format(order.submitDate, 'MM-dd-yyyy')}"></td>
+                                <td th:utext="${order.status.friendlyType}">Processing</td>
+                                <td th:utext="${order.customer.firstName} +' '+ ${order.customer.lastName}"></td>
+                                <td class="text-right" blc:price="${order.total}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="js-orderDetails order-details"></div>
+                    <input type="submit" class="btn btn-primary" value="Approve Selected"/>
+                </blc:form>
+                <p th:if="${#lists.isEmpty(accountOrders)}">No unassigned orders for approval.</p>
+            </div>
+            <div th:unless="${#lists.isEmpty(accountOrders)}">
+                <a href="">Select All</a> | <a href="">Deselect All</a>
+            </div>
+
+        </th:block>
+        <th:block th:unless="${#account.customerHasRole('ROLE_ACCOUNT_APPROVER')}">
+            <p>You do not have the appropriate permissions to view this section. Please contact your administrator.</p>
+        </th:block>
+
+    </div>
+</th:block>

@@ -1,0 +1,32 @@
+/* =============================================================================
+
+   Theme variables:
+     primaryColor                   : __primaryColor=#E40037__
+
+   ========================================================================== */
+
+/**********************/
+/*** B2B ACCOUNT PAGES ****/
+/**********************/
+
+.order-reorder {
+    text-align: right;
+    flex: 1;
+}
+.reorder-product-actions .btn:hover {
+    color: #FFFFFF !important;
+    background-color: __primaryColor__ !important;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(__primaryColor__, 0.4);
+}
+
+@media (max-width: 768px) {
+    .navbar .navbar-nav > li > a.customer-account-dropdown {
+        padding: 0 0 1em;
+    }
+}
+.customer-account-name {
+    font-size: smaller;
+    padding: 0;
+    margin-left: 23px;
+    line-height: 10px;
+}

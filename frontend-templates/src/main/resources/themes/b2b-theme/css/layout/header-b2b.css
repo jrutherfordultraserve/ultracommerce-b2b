@@ -1,0 +1,17 @@
+/* =============================================================================
+
+   B2B Theme override variables:
+     logoImage            : __logoImage=../img/b2b-the-heat-clinic-logo-internal.png__
+     primaryColor         : __primaryColor=#E40037__
+
+   ========================================================================== */
+
+.navbar .brand-logo {
+    display: block;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    content: url(__logoImage__);
+    width: 120px;
+    transform: scale(1.92);
+    transition: all .4s ease-in-out;
+}

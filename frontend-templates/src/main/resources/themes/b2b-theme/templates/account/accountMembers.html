@@ -1,0 +1,27 @@
+<th:block layout:decorate="~{layout/accountLayout}" layout:fragment="content">
+    <div th:unless="${#lists.isEmpty(accountMemberErrors)}">
+        <div class="error" th:each="error : ${accountMemberErrors}" th:text="${error}" />
+    </div>
+    <div class="account-members" th:if="${#account.customerHasRole('ROLE_ACCOUNT_ADMINISTRATOR')}">
+        <div>
+            <h2 th:text="${blAccountMembers[0].account.name} + ' Members'">Account Title</h2>
+            <div class="js-member" th:each="member : ${blAccountMembers}" th:object="${member}" th:if="*{customer.id} == ${customer.id}">
+                <a th:href="@{/account/} + ${#account.getCurrentAccountMember().account.id} + '/accountMembers/' + *{id}" class="js-viewMemberDetails" th:text="*{customer.firstName} + ' ' + *{customer.lastName}"></a>
+                <div class="js-memberDetails"></div>
+            </div>
+            <div class="js-member" th:each="member : ${blAccountMembers}" th:object="${member}" th:unless="*{customer.id} == ${customer.id}">
+                <a th:href="@{/account/} + ${#account.getCurrentAccountMember().account.id} + '/accountMembers/' + *{id}" class="view-member-details" th:text="*{customer.firstName} + ' ' + *{customer.lastName}"></a>
+                <div class="js-memberDetails"></div>
+            </div>
+        </div>
+        <hr style="width: 540px;"/>
+        <div>
+            <h2>Sub Accounts</h2>
+            <div th:if="${#lists.isEmpty(groups)}">No Sub-accounts</div>
+            <div th:each="group : ${groups}" th:object="${group}">
+                <a th:href="@{/account/} + *{subAccount.id} + '/accountMembers'" th:text="*{subAccount.name}"></a>
+            </div>
+        </div>
+    </div>
+    <h3 th:unless="${#account.customerHasRole('ROLE_ACCOUNT_ADMINISTRATOR')}">You are not allowed to do that at this time.</h3>
+</th:block>

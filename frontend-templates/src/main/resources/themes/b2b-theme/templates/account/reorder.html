@@ -1,0 +1,19 @@
+<th:block layout:decorate="~{layout/accountLayout}" layout:fragment="content">
+    <div class="card manage-account-form-wrapper js-wishlist" th:fragment="ajax">
+        <h3>Easy Reorder</h3>
+        <hr />
+
+        <div class="col-sm-12" th:object="${order}">
+            <th:block th:include="account/partials/reorderItemsRow"/>
+
+            <blc:form method="POST" th:action="@{/account/orders/reorder/all/} + *{orderNumber}" th:object="${order}">
+                <div class="pull-right">
+                    <button class="btn btn-primary wishlist-all-to-cart-btn" type="submit">
+                        <i class="material-icons">add_shopping_cart</i>
+                        <span>Add all items to Cart</span>
+                    </button>
+                </div>
+            </blc:form>
+        </div>
+    </div>
+</th:block>

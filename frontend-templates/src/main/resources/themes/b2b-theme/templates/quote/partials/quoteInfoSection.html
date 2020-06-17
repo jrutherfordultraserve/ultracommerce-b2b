@@ -1,0 +1,94 @@
+<div id="quote-info-section" th:fragment="quote-info-section">
+
+    <div class="col-lg-4" th:unless="${#lists.isEmpty(quote.order.orderItems)}">
+        <div class="js-cart-summary card checkout-card cart-summary-row">
+            <div class="row">
+                <div class="cart-summary-title">
+                    <h4 th:utext="#{cart.summary}">Summary</h4>
+                </div>
+            </div>
+            <div class="row cart-summary-breakdown">
+
+                <!-- Read Only Quote Name-->
+                <th:block th:unless="${(quote?.status?.type == 'IN_PROCESS')}">
+                    <p class="quote-update-name" th:text="${quote.name}"></p>
+                </th:block>
+
+                <!-- Info -->
+                <div>
+                    Status: <span th:text="${quote.status.friendlyType}"></span>
+                    <th:block th:include="quote/partials/quoteDatesSection" th:with="quote = ${quote}" />
+                </div>
+
+                <!-- Total -->
+                <div class="cart-estimated-total">
+                    <span th:utext="#{cart.estimatedTotal}">Estimated Total</span>
+                    <span class="pull-right" th:if="${cart.itemAdjustmentsValue != null}" blc:price="${quote.order.subTotal?.add(cart.itemAdjustmentsValue)}"></span>
+                    <span class="pull-right" th:unless="${cart.itemAdjustmentsValue != null}" blc:price="${quote.order.subTotal}"></span>
+                    <p th:utext="#{cart.subtotalDisclaimer}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="js-cart-summary card checkout-card cart-summary-row">
+            <div class="row">
+                <div class="cart-summary-title">
+                    <h4 th:if="${quoteIsEditable}">Quote Details</h4>
+                    <h4 th:unless="${quoteIsEditable}">Quote Actions</h4>
+                </div>
+            </div>
+            <div class="row cart-summary-breakdown">
+                <!-- Quote Actions -->
+                <th:block th:unless="${quote?.status?.type == 'IN_REVISION'}">
+
+                    <!-- Hide this section on CSR edit to force CSR to submit through admin -->
+                    <div th:if="${(quote?.status?.type == 'IN_PROCESS')}">
+                        <blc:form method="POST" th:action="@{${'/account/quote/' + quote.id}}">
+
+                            <div class="form-group label-floating">
+                                <label class="control-label" for="quoteName">Quote Name</label>
+                                <input id="quoteName" type="text" th:field="${quote.name}" class="js-clearable form-control" />
+                            </div>
+                            <span class="text-danger" th:if="${errorMessage}" th:utext="${errorMessage}"></span>
+
+                            <div class="form-group label-floating">
+                                <label class="control-label" for="note">Quote Request Details</label>
+                                <textarea id="note" class="form-control" name="note"></textarea>
+                            </div>
+
+                            <input type="hidden" name="quoteId" th:value="${quote.id}"/>
+                            <input class="btn btn-primary btn-block" type="submit" value="Submit Quote" />
+                        </blc:form>
+                    </div>
+
+                    <th:block th:if="${quote.mostRecentRevision.id == quote.id}">
+                        <div class="row">
+                            <a class="btn btn-primary btn-block"
+                               th:if="${quote?.status?.type == 'ACCEPTED' and quote?.isActive()}"
+                               th:href="@{/checkout/(quoteId=${quote.id})}" id="quote-action-checkout">
+                                Checkout
+                            </a>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 no-left-padding">
+                                <a class="btn btn-block btn-sm"
+                                   th:if="${(quote?.status?.type == 'REJECTED') or (quote?.status?.type == 'ACCEPTED')}"
+                                   th:href="@{${quote.id} + '/modifyQuote'}">Modify Quote</a>
+                                <a class="btn btn-block btn-sm"
+                                   th:if="${(quote?.status?.type == 'IN_PROCESS') and (#lists.size(quote.quoteChain.quoteRevisions) > 1)}"
+                                   th:href="@{${quote.id} + '/cancelModifyQuote'}">Cancel Modify</a>
+                            </div>
+                            <div th:class="${quote?.status?.type == 'SUBMITTED' or ((quote?.status?.type == 'IN_PROCESS') and (#lists.size(quote.quoteChain.quoteRevisions) == 1))} ? 'col-sm-12' : 'col-sm-6 no-right-padding'">
+                                <a class="btn btn-block btn-sm"
+                                   th:unless="${quote?.status?.type == 'ARCHIVED'}"
+                                   th:href="@{${quote.id} + '/archiveQuote'}" id="quote-action-archive">Archive Quote</a>
+                            </div>
+                        </div>
+                    </th:block>
+                    <a th:if="${quote.mostRecentRevision.id != quote.id}" th:href="@{${quote.mostRecentRevision.id}}">View Most Recent Revision</a>
+                </th:block>
+            </div>
+        </div>
+
+    </div>
+</div>

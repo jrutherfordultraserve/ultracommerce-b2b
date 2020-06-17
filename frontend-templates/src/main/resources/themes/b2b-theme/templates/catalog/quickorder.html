@@ -1,0 +1,107 @@
+<th:block layout:decorate="~{layout/checkoutPageLayout}">
+    <head>
+        <title>Quick Order</title>
+    </head>
+
+    <div layout:fragment="content">
+
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="card card-nav-tabs">
+                    <div class="nav-align-center quick-order-nav">
+                        <ul class="nav nav-pills text-center" data-tabs="tabs">
+                            <li class="active center-pill">
+                                <a href="#quick-order-line-by-line" data-toggle="tab">
+                                    <i class="material-icons">add</i> Line by Line
+                                </a>
+                            </li>
+                            <li class="center-pill">
+                                <a href="#quick-order-copy-paste" data-toggle="tab">
+                                    <i class="material-icons">create</i> Copy &amp; Paste
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="content quick-order-content">
+                        <div class="tab-content text-center">
+                            <div class="tab-pane active js-quickOrderTabContent" id="quick-order-line-by-line">
+                                <p>
+                                    For quick and easy ordering, enter either the item code or UPC and the quantity you wish to order, then click add all to your cart!
+                                </p>
+
+                                <div id="quick-order" class="col-sm-10 col-sm-offset-1 text-left">
+                                    <blc:form class="quick-order-form js-quickOrderForm" action="#" th:action="@{/quick-order}" method="POST">
+                                        <input type="hidden" name="expandProductOptions" th:value="${#props.get('b2b.quickorder.expand.product.options')}"/>
+                                        <input type="hidden" name="initialFormRowCount" th:value="${initialFormRowCount}"/>
+
+                                        <th:block th:each="i : ${#numbers.sequence(0, initialFormRowCount - 1)}">
+
+                                            <div class="row js-quickOrderFormRow">
+                                                <div class="col-sm-10">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Item Code / UPC</label>
+                                                        <input type="text" name="itemCode"
+                                                               th:attr="data-qoi-idx=${i}"
+                                                               class="form-control js-quickOrderField"
+                                                               autocomplete="off"/>
+                                                    </div>
+                                                    <div class="js-quickOrderSuggestions qo-dropdown dropdown">
+                                                        <ul class="js-quickOrderSuggestionsList qo-dropdown-menu dropdown-menu">
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="js-quickOrderItem"></div>
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Quantity</label>
+                                                        <input type="number" name="itemQuantity" min="0"
+                                                               class="form-control js-quickOrderQuantityField"/>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </th:block>
+
+                                        <input type="submit" class="btn btn-primary pull-right" th:value="#{product.addToCart}"/>
+                                        <input th:if="${!customer.anonymous}" type="button" class="btn btn-simple pull-right js-quickQuoteFormButton" value="Add to Quote"/>
+
+                                    </blc:form>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane js-quickOrderTabContent" id="quick-order-copy-paste">
+                                <p>
+                                    Want to order faster?
+                                    Copy and paste items from your file into the field below using the following format:
+                                    <span class="text-gray">Item# [tab or comma] Quantity</span>
+                                </p>
+                                <div id="quick-order-paste" class="col-lg-10 col-lg-offset-1 col-sm-12 col-sm-offset-0 text-left">
+                                    <blc:form class="quick-order-paste-form js-quickOrderPasteForm" action="#" th:action="@{/quick-order-paste}" method="POST">
+
+                                        <div class="form-group">
+                                            <textarea id="quick-order-paste-area"
+                                                  class="form-control js-quickOrderPasteArea"
+                                                  name="quickOrderPasteText"
+                                                  rows="10"
+                                                  placeholder="Enter your item codes with quantities here"></textarea>
+                                        </div>
+
+                                        <input type="submit" class="btn btn-primary pull-right" th:value="#{product.addToCart}"/>
+                                        <input th:if="${!customer.anonymous}" type="button" class="btn btn-simple pull-right js-quickQuotePasteButton" value="Add to Quote"/>
+
+                                    </blc:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</th:block>

@@ -1,0 +1,71 @@
+<div class="col-lg-8">
+    <!-- Quote Items -->
+    <th:block th:unless="${#lists.isEmpty(quote.order.orderItems)}">
+        <div class="card checkout-card cart-summary-row">
+            <div class="row">
+                <div class="cart-summary-title">
+                    <div class="panel panel-default quote-panel">
+                        <div class="panel-heading quote-panel-heading" role="tab" id="quote-panel-header">
+                            <a th:if="${quoteIsEditable}"
+                               class="collapsed" role="button" data-toggle="collapse" href="#quoteActionsCollapse"
+                               aria-expanded="false" aria-controls="quoteActionsCollapse">
+                                <h4>
+                                    In your Quote (<span th:utext="${quote.order.itemCount}"></span>)
+                                    <i class="material-icons">keyboard_arrow_down</i>
+                                </h4>
+                            </a>
+                            <h4 th:unless="${quoteIsEditable}">
+                                In your Quote (<span th:utext="${quote.order.itemCount}"></span>)
+                            </h4>
+                        </div>
+                        <div id="quoteActionsCollapse" class="panel-collapse collapse">
+                            <div class="panel-body quote-panel-body">
+                                <!-- Support for Non-Discrete Order Items -->
+                                <blc:form class="form-inline" th:attr="data-url=@{/account/quote/addCustomQuoteItem}" method="POST" th:if="${quoteIsEditable}">
+
+                                    <div class="add-custom-quote-item-header">Add Custom Item</div>
+
+                                    <div class="label-floating form-group">
+                                        <label for="custom-quote-item-name" class="control-label">Name</label>
+                                        <input id="custom-quote-item-name" type="text" name="itemName" class="form-control"/>
+                                    </div>
+
+                                    <div class="label-floating form-group">
+                                        <label for="custom-quote-item-qty" class="control-label">Quantity</label>
+                                        <input id="custom-quote-item-qty" type="number" name="quantity" class="form-control"/>
+                                    </div>
+
+                                    <div class="label-floating form-group">
+                                        <label for="custom-quote-item-total" class="control-label">Total</label>
+                                        <input id="custom-quote-item-total" type="number" step="0.01" name="overrideRetailPrice" class="form-control"/>
+                                    </div>
+
+                                    <div class="label-floating form-group">
+                                        <label for="custom-quote-item-price-unit" class="control-label">Price Unit</label>
+                                        <select id="custom-quote-item-price-unit" class="form-control" name="priceMethod">
+                                            <option value="each" selected>Each</option>
+                                            <option value="ext">Ext Price</option>
+                                        </select>
+                                    </div>
+
+                                    <input type="hidden" th:value="${quote.id}" name="quoteId" />
+                                    <input type="button" class="pull-right custom-quote-item-add btn btn-sm btn-primary js-addCustomQuoteItem" value="Add Item to Quote"/>
+                                </blc:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" th:unless="${quote.order.itemCount == 0}">
+                <th:block th:replace="quote/partials/quoteProductRow" />
+            </div>
+        </div>
+    </th:block>
+
+    <!-- Quote Notes -->
+    <th:block th:replace="quote/partials/quoteNoteSection" />
+
+</div>
+
+
+

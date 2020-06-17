@@ -1,0 +1,41 @@
+<div id="price" th:unless="${#object instanceof T(org.broadleafcommerce.core.catalog.domain.ProductBundle)}">
+
+    <th:block th:if="*{defaultSku.priceData.hasContractPrice}">
+        <div class="label label-primary">Contract Price</div>
+        <h3 class="main-price">
+            <span blc:price="*{defaultSku.priceData.salePrice}" th:if="*{defaultSku.priceData.hasSalePrice}" th:classappend="*{defaultSku.onSale}? 'price-new'"></span>
+            <span blc:price="*{defaultSku.priceData.retailPrice}" th:classappend="*{defaultSku.priceData.hasSalePrice || defaultSku.priceData.hasContractPrice }? 'price-old small'"></span>
+            <span blc:price="*{defaultSku.priceData.contractPrice}" class="price-contract"></span>
+        </h3>
+
+        <th:block th:if="*{defaultSku.priceData.hasPricingTiers}">
+            <h4>Buy more save more!</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Min Quantity</th>
+                        <th class="text-center">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="priceTier : *{defaultSku.priceData.getPricingTiers()}">
+                        <td th:text="${priceTier.minQuantity}"></td>
+                        <td class="text-center" blc:price="${priceTier.salePrice}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </th:block>
+    </th:block>
+
+    <th:block th:unless="*{defaultSku.priceData.hasContractPrice}">
+        <h3 class="main-price">
+            <span blc:price="*{defaultSku.salePrice}" th:if="*{defaultSku.onSale}" th:classappend="*{defaultSku.onSale}? 'price-new'"></span>
+            <span blc:price="*{defaultSku.retailPrice}" th:classappend="*{defaultSku.onSale}? 'price-old small'"></span>
+        </h3>
+    </th:block>
+
+
+</div>

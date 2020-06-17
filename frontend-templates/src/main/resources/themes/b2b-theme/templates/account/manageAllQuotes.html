@@ -1,0 +1,61 @@
+<th:block layout:decorate="layout/accountLayout" layout:fragment="content">
+    <div class="card manage-account-form-wrapper quote-lists js-manageAccountFormWrapper">
+
+        <h3>My Quotes</h3>
+        <hr />
+
+        <input th:if="${quoteToLoad}" th:value="${quoteToLoad}" type="hidden" name="quoteToLoad"/>
+
+        <div class="header header-primary">
+            <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <ul class="nav nav-tabs" data-tabs="tabs">
+                        <li th:if="${#brc.csrMode}"><a href="#inrevision-quote-list" data-toggle="tab">In Revision</a></li>
+                        <li class="active"><a href="#inprocess-quote-list" data-toggle="tab"><i class="material-icons">create</i>In Process</a></li>
+                        <li><a href="#submitted-quote-list" data-toggle="tab"><i class="material-icons">send</i>Submitted</a></li>
+                        <li><a href="#accepted-quote-list" data-toggle="tab"><i class="material-icons">done</i>Accepted</a></li>
+                        <li><a href="#rejected-quote-list" data-toggle="tab"><i class="material-icons">report</i>Rejected</a></li>
+                        <li><a href="#archived-quote-list" data-toggle="tab"><i class="material-icons">archive</i>Archived</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content clearfix">
+
+            <div id="inrevision-quote-list" th:if="${#brc.csrMode}" class="tab-pane quote-list">
+                <th:block th:include="account/partials/quoteDetailTable" th:with="quoteList=${inrevisionQuotes}"/>
+                <p th:if="${#lists.isEmpty(inrevisionQuotes)}">You do not have any in revision quotes</p>
+            </div>
+
+            <div id="inprocess-quote-list" class="tab-pane active quote-list">
+                <th:block th:include="account/partials/quoteDetailTable" th:with="quoteList=${inprocessQuotes}"/>
+                <p th:if="${#lists.isEmpty(inprocessQuotes)}">You do not have any in process quotes</p>
+            </div>
+
+            <div id="submitted-quote-list" class="tab-pane quote-list">
+                <th:block th:include="account/partials/quoteDetailTable" th:with="quoteList=${submittedQuotes}"/>
+                <p th:if="${#lists.isEmpty(submittedQuotes)}">You do not have any submitted quotes</p>
+            </div>
+
+            <div id="accepted-quote-list" class="tab-pane quote-list">
+                <th:block th:include="account/partials/quoteDetailTable" th:with="quoteList=${acceptedQuotes}"/>
+                <p th:if="${#lists.isEmpty(acceptedQuotes)}">You do not have any accepted quotes</p>
+            </div>
+
+            <div id="rejected-quote-list" class="tab-pane quote-list">
+                <th:block th:include="account/partials/quoteDetailTable" th:with="quoteList=${rejectedQuotes}"/>
+                <p th:if="${#lists.isEmpty(rejectedQuotes)}">You do not have any rejected quotes</p>
+            </div>
+
+            <div id="archived-quote-list" class="tab-pane quote-list">
+                <th:block th:include="account/partials/quoteDetailTable" th:with="quoteList=${archivedQuotes}"/>
+                <p th:if="${#lists.isEmpty(archivedQuotes)}">You do not have any archived quotes</p>
+            </div>
+
+        </div>
+
+
+    </div>
+</th:block>

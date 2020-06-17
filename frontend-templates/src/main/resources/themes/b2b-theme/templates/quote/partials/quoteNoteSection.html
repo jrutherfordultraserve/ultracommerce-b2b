@@ -1,0 +1,24 @@
+<div class="card checkout-card">
+    <div class="card-summary-title">
+        <h4>Notes</h4>
+    </div>
+
+    <p class="quote-no-notes" th:if="${#lists.isEmpty(quote.quoteChain.quoteNotes)}">
+        There are no notes for this quote.
+    </p>
+    <div th:unless="${#lists.isEmpty(quote.quoteChain.quoteNotes)}"
+         th:each="note : ${quote.quoteChain.quoteNotes}" class="media">
+        <a class="pull-left" href="#">
+            <div class="icon icon-primary">
+                <i class="material-icons">account_circle</i>
+            </div>
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">
+                <span th:text="${note.author}"></span>
+                <small th:text="${'· ' + #dates.format(note.auditable.dateUpdated,'MMMM dd, yyyy hh:mm a')}"></small>
+            </h4>
+            <p th:utext="${note.note}"></p>
+        </div>
+    </div>
+</div>

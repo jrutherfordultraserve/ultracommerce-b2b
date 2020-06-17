@@ -1,0 +1,46 @@
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle customer-account-dropdown" data-toggle="dropdown">
+        <i class="material-icons">account_circle</i>[[${customer.firstName}]]
+        <span class="visible-xs customer-account-name" th:text="${#account.getCurrentAccountMember()?.account?.name}"></span>
+    </a>
+    <ul class="dropdown-menu account-actions">
+        <li class="dropdown-header">
+            <span class="hidden-xs" th:text="${#account.getCurrentAccountMember()?.account?.name}"></span>
+        </li>
+        <li>
+            <a th:href="@{/account}">My Profile</a>
+        </li>
+        <li>
+            <a th:href="@{/account/orders-account}">Order History</a>
+        </li>
+        <li class="visible-xs">
+            <a th:href="@{/account/quote}">Manage Quotes</a>
+        </li>
+        <li>
+            <a th:href="@{/logout}" th:utext="#{home.logout}">Logout</a>
+        </li>
+    </ul>
+</li>
+
+<th:block th:with="pendingOrders=${#account.getAccountPendingOrders()}"
+          th:if="${#account.customerHasRole('ROLE_ACCOUNT_APPROVER')}">
+    <th:block th:if="${pendingOrders != null AND #lists.size(pendingOrders) > 0}">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="material-icons">notifications</i>
+                <span class="label label-info" th:text="${#lists.size(pendingOrders)}"></span>
+            </a>
+            <ul class="dropdown-menu account-notifications">
+                <li class="dropdown-header">
+                    Notifications
+                </li>
+                <li>
+                    <a th:href="@{/account/orderApproval}">
+                        View Orders Pending Approval
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </th:block>
+
+</th:block>

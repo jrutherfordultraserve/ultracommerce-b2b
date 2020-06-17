@@ -1,0 +1,21 @@
+<div th:if="${customer.loggedIn or #brc.csrMode}" class="add-to-quote js-add-to-quote" th:attr="data-url=@{/quote/addItemToQuote}">
+
+    <div class="dropdown">
+        <button href="#" class="dropdown-toggle btn btn-fab btn-simple"
+                rel="tooltip"
+                th:data-original-title="#{product.addToQuote}"
+                data-toggle="dropdown" aria-expanded="false">
+            <i class="material-icons">assignment</i>
+        </button>
+        <ul class="dropdown-menu">
+            <th:block th:each="quote : ${#quote.findQuotesForCustomer()}" th:object="${quote}">
+                <li th:if="${(customer.loggedIn and quote.status.type == 'IN_PROCESS') or (#brc.csrMode and quote.status.type == 'IN_REVISION')}">
+                    <a class="js-addToQuote" href="#" th:attr="data-value=*{id}" th:utext="*{name}"></a>
+                </li>
+            </th:block>
+            <li>
+                <a class="js-addToQuote" href="#" th:attr="data-value=-1">New Quote</a>
+            </li>
+        </ul>
+    </div>
+</div>

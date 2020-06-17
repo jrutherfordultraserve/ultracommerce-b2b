@@ -1,0 +1,112 @@
+/* =============================================================================
+
+   Theme variables:
+     primaryColor         : __primaryColor=#E40037__
+
+   ========================================================================== */
+
+.qo-dropdown {
+
+}
+
+.qo-dropdown .qo-dropdown-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.qo-dropdown .qo-dropdown-menu li {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    position: relative;
+}
+.qo-dropdown .qo-dropdown-menu li a {
+    border-bottom: 1px solid #ccc;
+    margin: 0 1em;
+    padding: 1em;
+}
+.qo-dropdown .qo-dropdown-menu li > a img {
+    width: 70px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+}
+
+.qo-dropdown-menu li.is-focused a {
+    background-color: __primaryColor__;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(__primaryColor__, 0.4);
+    color: white;
+}
+
+.qo-dropdown-menu li .qo-details {
+    display: inline-block;
+    padding-left: 1em;
+}
+
+.qo-dropdown-menu li .qo-details > h5 {
+    display: block;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    vertical-align: top;
+}
+
+.qo-dropdown-menu li .qo-details > .qo-number {
+    display: block;
+    font-size: 12px;
+}
+
+.qo-dropdown-menu li .qo-details .qo-price {
+    font-size: 15px;
+    position: absolute;
+    bottom: 1em;
+    right: 2em;
+}
+
+.qo-item.is-focused span, .qo-item:hover span {
+    color: white;
+}
+
+.quick-order-selection .card-image {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.quick-order-selection .card-image img {
+    width: 60px;
+    display: inline-block;
+}
+
+.quick-order-selection .card-description {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.quick-order-nav {
+    margin-top: 1em;
+}
+
+.quick-order-nav .nav-pills > li i {
+    padding: 0;
+}
+
+.quick-order-content {
+    padding-top: 2em;
+}
+
+.quick-order-selection .card-title {
+    margin: 0;
+    font-weight: 500;
+    vertical-align: top;
+}
+
+.quick-order-selection .bootstrap-select .btn {
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+}
