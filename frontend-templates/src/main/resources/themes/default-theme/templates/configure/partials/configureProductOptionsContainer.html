@@ -1,0 +1,25 @@
+<div th:id="${'child-productOptions' + itemIndex + product.id}" th:unless="${#lists.isEmpty(product.productOptions)}" th:object="${product}">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" th:id="${'panel-heading-productOptions' + product.id}">
+            <a role="button" data-toggle="collapse"
+               th:data-parent="${'#child-productOptions' + itemIndex + product.id}"
+               th:href="${'#panel-productOptions' + itemIndex + product.id}"
+               aria-expanded="false" th:aria-controls="${'panel-productOptions' + itemIndex + product.id}">
+                <h4>
+                    View Product Options
+                    <i class="material-icons">keyboard_arrow_down</i>
+                </h4>
+            </a>
+        </div>
+        <div th:id="${'panel-productOptions' + itemIndex + product.id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <div th:id="${'productOptions' + itemIndex + product.id}" class="child-product-options">
+                    <th:block th:with="itemIndex=${itemIndex}" th:include="configure/partials/configureProductOptions" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alt images -->
+<div th:object="${product}" th:include="configure/partials/altImages"></div>

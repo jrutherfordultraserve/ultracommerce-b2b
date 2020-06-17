@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.broadleafcommerce</groupId>
+        <artifactId>broadleaf-boot-starter-parent</artifactId>
+        <version>5.2.10-SNAPSHOT</version>
+        <relativePath />
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.mycompany</groupId>
+    <artifactId>boot-starter-b2b</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Broadleaf B2B Spring Boot Starter</name>
+    <url>http://www.broadleafcommerce.com</url>
+
+    <repositories>
+        <repository>
+            <id>enterprise-releases</id>
+            <name>enterprise-releases</name>
+            <url>https://nexus.ultracommerce.io/repository/ultracommerce-enterprise/</url>
+        </repository>
+        <repository>
+            <id>enterprise-snapshots</id>
+            <name>enterprise-snapshots</name>
+            <url>https://nexus.ultracommerce.io/repository/ultracommerce-enterprise/</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <google-closure-compiler.version>v20180506</google-closure-compiler.version>
+        
+        <!-- The default Broadleaf 5.2-compatible change is the 1.1 line. However, product type
+            1.2 adds additional functionality and is also compatible with Broadleaf 5.2, so this overrides
+            the default -->
+        <broadleaf-product-type.version>1.2.0-GA</broadleaf-product-type.version>
+        
+        <debug.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${debug.port}</debug.args>
+        <boot.jvm.memory>-Xmx1536M</boot.jvm.memory>
+        <boot.jvm.args>${boot.jvm.memory} ${debug.args}</boot.jvm.args>
+        
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.uri>${project.baseUri}</project.uri>
+    </properties>
+    
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://nexus.ultracommerce.io/repository/uc-b2b-mt-oms-6.0.2-GA/</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>https://nexus.ultracommerce.io/repository/uc-b2b-mt-oms-6.0.2-GA/</url>
+        </repository>
+    </distributionManagement>
+    
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <jvmArguments>${boot.jvm.args}</jvmArguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.zeroturnaround</groupId>
+                <artifactId>jrebel-maven-plugin</artifactId>
+                <version>1.1.7</version>
+                <executions>
+                    <execution>
+                        <id>generate-rebel-xml</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+        <profile>
+            <id>jrebel</id>
+            <properties>
+                <boot.jvm.args>${boot.jvm.memory} ${debug.args} ${jrebel.agent.args}</boot.jvm.args>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.broadleafcommerce</groupId>
+                <artifactId>broadleaf-product-type</artifactId>
+                <version>${broadleaf-product-type.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mycompany</groupId>
+                <artifactId>boot-starter-frontend-templates-b2b</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mycompany</groupId>
+                <artifactId>boot-starter-core-b2b</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.javascript</groupId>
+                <artifactId>closure-compiler-unshaded</artifactId>
+                <version>${google-closure-compiler.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>admin</module>
+        <module>core</module>
+        <module>site</module>
+        <module>api</module>
+        <module>frontend-templates</module>
+    </modules>
+
+</project>

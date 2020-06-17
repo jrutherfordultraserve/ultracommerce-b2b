@@ -1,0 +1,6 @@
+<div class="row" th:if="${sc !=null and sc.values[imageUrl] != null}">
+    <a th:if="${sc.values[targetUrl] != null}" th:href="@{${sc.values[targetUrl]}}">
+        <img class="img-responsive full-width" th:src="@{${sc.values[imageUrl]}}"/>
+    </a>
+    <img class="img-responsive full-width" th:if="${sc.values[targetUrl] == null}" th:src="@{${sc.values[imageUrl]}}"/>
+</div>

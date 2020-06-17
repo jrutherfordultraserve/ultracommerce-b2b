@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
+<head th:include="layout/partials/head (pageTitle='Broadleaf Commerce Demo Store - Heat Clinic')"></head>
+
+<body th:class="${'locale-' + session.blLocale.localeCode}">
+    <th:block th:replace="layout/partials/nav" />
+
+    <div class="main">
+        <div class="container-fluid">
+
+            <th:block th:replace="homepage/bannerAd" />
+
+            <div class="container">
+
+                <th:block th:replace="homepage/middlePromo" />
+
+                <hr />
+
+                <div class="row">
+                    <h3 class="text-center" th:text="${pageFields[productTitle]}"></h3>
+
+                    <div class="col-sm-6 col-md-3"  th:if="${pageFields[product1]} and ${pageFields[product1].isActive()}"
+                         th:with="product=${pageFields[product1]}"
+                         th:object="${pageFields[product1]}"
+                         th:include="catalog/partials/productListItem">
+                    </div>
+                    <div class="col-sm-6 col-md-3"  th:if="${pageFields[product2]} and ${pageFields[product2].isActive()}"
+                         th:with="product=${pageFields[product2]}"
+                         th:object="${pageFields[product2]}"
+                         th:include="catalog/partials/productListItem">
+                    </div>
+                    <div class="col-sm-6 col-md-3"  th:if="${pageFields[product3]} and ${pageFields[product3].isActive()}"
+                         th:with="product=${pageFields[product3]}"
+                         th:object="${pageFields[product3]}"
+                         th:include="catalog/partials/productListItem">
+                    </div>
+                    <div class="col-sm-6 col-md-3"  th:if="${pageFields[product4]} and ${pageFields[product4].isActive()}"
+                         th:with="product=${pageFields[product4]}"
+                         th:object="${pageFields[product4]}"
+                         th:include="catalog/partials/productListItem">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block layout:fragment="post-content" />
+
+    <footer th:replace="layout/partials/footer"></footer>
+</body>
+</html>

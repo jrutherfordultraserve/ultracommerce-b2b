@@ -1,0 +1,15 @@
+<a th:if="${sc != null and sc.values[targetUrl] != null and sc.values[imageUrl] != null}"
+   th:href="@{${sc.values[targetUrl]}}">
+    <div class="card card-plain">
+        <div class=" card-image">
+            <img th:src="@{${sc.values[imageUrl]}}"/>
+        </div>
+    </div>
+</a>
+
+<div th:if="${sc != null and sc.values[targetUrl] == null and sc.values[imageUrl] != null}"
+     class="card card-plain">
+    <div class=" card-image">
+        <img th:src="@{${sc.values[imageUrl]}}"/>
+    </div>
+</div>

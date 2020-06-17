@@ -1,0 +1,33 @@
+<th:block layout:decorate="~{layout/fullPageLayout}">
+
+    <head layout:fragment="custom-head">
+        <th:block th:include="seo/partials/seoMetaProperties" th:with="metaProperties=${#seo.getMetaProperties(BLC_PAGE)}" />
+
+        <th:block th:include="layout/partials/head" th:with="hasMetaDesc=${true}"/>
+    </head>
+
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <header>
+                    <h1 th:utext="${BLC_PAGE.pageFields[header]}"></h1>
+                </header>
+
+                <div th:utext="${BLC_PAGE.pageFields[body]}"></div>
+            </div>
+        </div>
+
+        <hr th:if="${not #strings.isEmpty(BLC_PAGE.pageFields[header])}"/>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="product-main-image" id="product_main_image" th:object="${pageFields[product]}">
+                    <img class="img-rounded img-responsive img-raised" th:src="@{*{media[primary].url}}" />
+                </div>
+            </div>
+            <div class="col-md-9 card-description">
+                <p th:utext="${pageFields[description]}"></p>
+            </div>
+        </div>
+    </div>
+</th:block >

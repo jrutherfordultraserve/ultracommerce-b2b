@@ -1,0 +1,32 @@
+<!--Homepage Ad Banner Carousel-->
+<div id="carousel-slider-generic" class="row carousel slide" data-ride="carousel">
+    <!--Carousel Indicators-->
+    <ol class="carousel-indicators">
+        <li th:each="sc,iter : ${scs}" th:classappend="${iter.first}? 'active' "
+            th:if="${sc !=null and sc.values[imageUrl] != null}"
+            data-target="#carousel-slider-generic">
+        </li>
+    </ol>
+    <!--End of Carousel Indicators-->
+
+    <!--Carousel Slides-->
+    <div class="carousel-inner">
+        <div class="item" th:each="sc,iter : ${scs}" th:classappend="${iter.first}? 'active' "
+             th:if="${sc !=null and sc.values[imageUrl] != null}">
+            <a th:href="@{${sc.values[targetUrl]}}">
+                <img th:src="@{${sc.values[imageUrl]}}" style="width: 100%"/>
+            </a>
+        </div>
+    </div>
+    <!--End of Slides-->
+
+    <!-- Carousel Controls -->
+    <a class="left carousel-control" href="#carousel-slider-generic" data-slide="prev">
+        <i class="material-icons">keyboard_arrow_left</i>
+    </a>
+    <a class="right carousel-control" href="#carousel-slider-generic" data-slide="next">
+        <i class="material-icons">keyboard_arrow_right</i>
+    </a>
+    <!--End Controls-->
+</div>
+<!--END of Homepage Ad Banner Carousel-->

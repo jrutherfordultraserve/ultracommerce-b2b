@@ -1,0 +1,96 @@
+<div class="card checkout-card"
+     th:object="${shippingInfoForm}">
+    <div class="checkout-stage-title">
+        <h4>
+            <th:block th:utext="#{checkout.stages.shipping}">Shipping</th:block>
+        </h4>
+    </div>
+
+    <div class="checkout-stage">
+        <th:block th:if="${#lists.size(order.fulfillmentGroups) > 1}">
+            <div th:each="fg : ${order.fulfillmentGroups}" th:object="${fg}" class="multishipGroupRow">
+                <th:block th:if="*{type?.type == 'GIFT_CARD'
+                                    or type?.type == 'DIGITAL'
+                                    or type?.type == 'PHYSICAL_PICKUP'}">
+
+                    <h4 class="read-only-fulfillment-type">
+                        <p th:text="*{type?.friendlyType}"></p>
+                    </h4>
+
+                    <div class="unshippable_summary">
+                        <div th:each="item : *{fulfillmentGroupItems}" th:object="${item.orderItem}" th:id="${'productRow' + item.id}">
+                            <span th:utext="${item.quantity}"></span>
+                            <span>
+                                <span th:utext="*{sku.name}"></span>
+                                <blc:product_option_display orderItem="${item.orderItem}" >
+                                    <ul th:unless="${#lists.isEmpty(productOptionDisplayValues)}" class="js-productOptions productOptions">
+                                        <li th:each="entry: ${productOptionDisplayValues}" th:if="${entry.key != ''}">
+                                            <span  th:utext="${entry.key} + ': ' + ${entry.value}"></span>
+                                        </li>
+                                    </ul>
+                                </blc:product_option_display>
+                            </span>
+                        </div>
+                    </div>
+                </th:block>
+
+                <th:block th:unless="*{type?.type == 'GIFT_CARD'
+                                or type?.type == 'DIGITAL'
+                                or type?.type == 'PHYSICAL_PICKUP'}">
+                    <h4>
+                        <span th:classappend="*{address == null}? 'error'"
+                              th:utext="*{address == null ? 'Missing Address' : address.fullName + ' at ' + address.addressLine1}"></span>
+                        <span>&nbsp;-&nbsp;</span>
+                        <span th:classappend="*{fulfillmentOption == null}? 'error'"
+                              th:utext="*{fulfillmentOption == null ? 'Missing Fulfillment Option' : fulfillmentOption.name + ' (' + fulfillmentOption.longDescription + ')'}"></span>
+                        <span blc:price="*{shippingPrice}" class="multishipGroupShippingCharge"></span>
+                    </h4>
+
+                    <div class="multiship_summary">
+                        <div th:each="item : *{fulfillmentGroupItems}" th:object="${item.orderItem}" th:id="${'productRow' + item.id}">
+                            <span th:utext="${item.quantity}"></span>
+                            <span>
+                                <span th:utext="*{sku.name}"></span>
+                                <blc:product_option_display orderItem="${item.orderItem}" >
+                                    <ul th:unless="${#lists.isEmpty(productOptionDisplayValues)}" class="js-productOptions productOptions">
+                                        <li th:each="entry: ${productOptionDisplayValues}" th:if="${entry.key != ''}">
+                                            <span  th:utext="${entry.key} + ': ' + ${entry.value}"></span>
+                                        </li>
+                                    </ul>
+                                </blc:product_option_display>
+                            </span>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </th:block>
+
+        <th:block th:unless="${#lists.size(order.fulfillmentGroups) > 1}">
+            <div class="row fulfillment_option" th:object="${order.fulfillmentGroups[0]}" th:inline="text">
+                <th:block th:if="*{type?.type == 'GIFT_CARD'
+                                    or type?.type == 'DIGITAL'
+                                    or type?.type == 'PHYSICAL_PICKUP'}">
+
+                    <div class="read-only-fulfillment-type">
+                        <p th:text="*{type?.friendlyType}"></p>
+                    </div>
+                </th:block>
+
+                <th:block th:unless="*{type?.type == 'GIFT_CARD'
+                                or type?.type == 'DIGITAL'
+                                or type?.type == 'PHYSICAL_PICKUP'}">
+                    <div class="col-sm-6 read-only-shipping-address">
+                        <h4><span th:utext="#{cart.shippingInformation}">Shipping Information</span></h4>
+
+                        <th:block th:include="~{partials/simpleAddress :: read-only}" th:with="address=*{address}"/>
+                    </div>
+
+                    <div class="col-sm-6 read-only-shipping-method">
+                        <h4 th:utext="#{cart.shippingMethod}">Shipping Method</h4>
+                        <b>[[*{fulfillmentOption.name}]]</b><br /> ([[*{fulfillmentOption.longDescription}]])
+                    </div>
+                </th:block>
+            </div>
+        </th:block>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+<th:block th:if="${result != null and result.totalPages > 1 and result.getTotalResults() > 0}">
+    <div class="pager" th:unless="(${#lists.isEmpty(products)} and ${#lists.isEmpty(skus)})">
+        <ul class="pagination pagination-primary">
+            <li class="inactive">
+                <a th:if="${result.page > 1}" blc:paginationpagelink="${1}"><span>&lt;&lt;</span></a>
+                <a th:unless="${result.page > 1}" class="disabled" href="javascript:void(0);"><span>&lt;&lt;</span></a>
+            </li>
+            <li class="inactive">
+                <a th:if="${result.page > 1}" blc:paginationpagelink="${result.page - 1}"><span>&lt;</span></a>
+                <a th:unless="${result.page > 1}" class="disabled" href="javascript:void(0);"><span>&lt;</span></a>
+            </li>
+
+            <!-- This is offset by 1 intentionally -->
+            <li th:if="${result.page > 7}">
+                <span class="visible-lg">...</span>
+            </li>
+
+            <li th:if="${result.page > 6}">
+                <span class="hidden-lg hidden-xs">...</span>
+            </li>
+
+            <li th:if="${result.page > 2 and result.totalPages > 4}">
+                <span class="visible-xs">...</span>
+            </li>
+
+            <!-- Lg -->
+            <th:block th:if="${result.totalPages < 12}">
+                <li th:each="num : ${#numbers.sequence(1, result.totalPages)}" th:class="${result.page == num}? 'active visible-lg' : 'inactive visible-lg'">
+                    <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                </li>
+            </th:block>
+            <th:block th:unless="${result.totalPages < 12}">
+                <th:block th:if="${result.totalPages > 7 and result.page > 6 and result.page < result.totalPages - 6}">
+                    <li th:each="num : ${#numbers.sequence(result.page - 6, result.page + 6)}" th:class="${result.page == num}? 'active visible-lg' : 'inactive visible-lg'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+                <th:block th:if="${result.page <= 6}">
+                    <li th:each="num : ${#numbers.sequence(1, 12)}" th:class="${result.page == num}? 'active visible-lg' : 'inactive visible-lg'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+                <th:block th:if="${result.page > result.totalPages - 6}">
+                    <li th:each="num : ${#numbers.sequence(result.totalPages - 11, result.totalPages)}" th:class="${result.page == num}? 'active visible-lg' : 'inactive visible-lg'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+            </th:block>
+
+            <!-- Md / Sm -->
+            <th:block th:if="${result.totalPages < 10}">
+                <li th:each="num : ${#numbers.sequence(1, result.totalPages)}" th:class="${result.page == num}? 'active hidden-lg hidden-xs' : 'inactive hidden-lg hidden-xs'">
+                    <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                </li>
+            </th:block>
+            <th:block th:unless="${result.totalPages < 10}">
+                <th:block th:if="${result.page > 5 and result.page < result.totalPages - 5}">
+                    <li th:each="num : ${#numbers.sequence(result.page - 5, result.page + 5)}" th:class="${result.page == num}? 'active hidden-lg hidden-xs' : 'inactive hidden-lg hidden-xs'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+                <th:block th:if="${result.page <= 5}">
+                    <li th:each="num : ${#numbers.sequence(1, 10)}" th:class="${result.page == num}? 'active hidden-lg hidden-xs' : 'inactive hidden-lg hidden-xs'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+                <th:block th:if="${result.page > result.totalPages - 5}">
+                    <li th:each="num : ${#numbers.sequence(result.totalPages - 9, result.totalPages)}" th:class="${result.page == num}? 'active hidden-lg hidden-xs' : 'inactive hidden-lg hidden-xs'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+            </th:block>
+
+            <!-- XS -->
+            <th:block th:if="${result.totalPages < 5}">
+                <li th:each="num : ${#numbers.sequence(1, result.totalPages)}" th:class="${result.page == num}? 'active visible-xs' : 'inactive visible-xs'">
+                    <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                </li>
+            </th:block>
+            <th:block th:unless="${result.totalPages < 5}">
+                <th:block th:if="${result.page > 1 and result.page < result.totalPages}">
+                    <li th:each="num : ${#numbers.sequence(result.page - 1, result.page + 1)}" th:class="${result.page == num}? 'active visible-xs' : 'inactive visible-xs'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+                <th:block th:if="${result.page eq 1}">
+                    <li th:each="num : ${#numbers.sequence(1, 2)}" th:class="${result.page == num}? 'active visible-xs' : 'inactive visible-xs'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+                <th:block th:if="${result.page eq result.totalPages}">
+                    <li th:each="num : ${#numbers.sequence(result.totalPages - 1, result.totalPages)}" th:class="${result.page == num}? 'active visible-xs' : 'inactive visible-xs'">
+                        <a blc:paginationpagelink="${num}"><span th:utext="${num}"></span></a>
+                    </li>
+                </th:block>
+            </th:block>
+
+            <li th:if="${result.page < result.totalPages - 6}">
+                <span class="visible-lg">...</span>
+            </li>
+
+            <li th:if="${result.page < result.totalPages - 5}">
+                <span class="hidden-lg hidden-xs">...</span>
+            </li>
+
+            <li th:if="${result.page < result.totalPages - 1 and result.totalPages > 4}">
+                <span class="visible-xs">...</span>
+            </li>
+
+            <li class="inactive">
+                <a th:if="${result.page < result.totalPages}" blc:paginationpagelink="${result.page + 1}"><span>&gt;</span></a>
+                <a th:unless="${result.page < result.totalPages}" class="disabled" href="javascript:void(0);"><span>&gt;</span></a>
+            </li>
+            <li class="inactive">
+                <a th:if="${result.page < result.totalPages}" blc:paginationpagelink="${result.totalPages}"><span>&gt;&gt;</span></a>
+                <a th:unless="${result.page < result.totalPages}" class="disabled" href="javascript:void(0);"><span>&gt;&gt;</span></a>
+            </li>
+        </ul>
+    </div>
+</th:block>

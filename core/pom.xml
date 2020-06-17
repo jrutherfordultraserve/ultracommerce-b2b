@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.mycompany</groupId>
+        <artifactId>boot-starter-b2b</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>boot-starter-core-b2b</artifactId>
+    <packaging>jar</packaging>
+
+    <name>B2B Core Starter</name>
+    <description>Customizations And Extensions For Broadleaf Commerce Services And Entities</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-open-admin-platform</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-contentmanagement-module</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-profile</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-menu</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-sample-payment-gateway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-common-modules-enterprise</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-jobs-events</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-enterprise</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-custom-field</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-product-type</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-merchandising-group</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-customer-segment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-pricelist</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.google.javascript</groupId>
+            <artifactId>closure-compiler-unshaded</artifactId>
+        </dependency>
+
+        <!-- DXP -->
+        <dependency>
+            <groupId>com.mycompany</groupId>
+            <artifactId>boot-starter-frontend-templates-b2b</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-advanced-cms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-theme</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-enterprise-search</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-advanced-offer</artifactId>
+        </dependency>
+
+        <!-- B2B -->
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-account</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-quote</artifactId>
+        </dependency>
+
+        <!-- Multi-Site -->
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-multitenant-singleschema</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-oms</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-advanced-inventory</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.broadleafcommerce</groupId>
+            <artifactId>broadleaf-boot-starter-solr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <profiles>
+	<profile>
+	    <id>mysql</id>
+	    <activation>
+		<activeByDefault>true</activeByDefault>
+	    </activation>
+	    <dependencies>
+		<dependency>
+		    <groupId>com.broadleafcommerce</groupId>
+		    <artifactId>broadleaf-boot-starter-database</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		</dependency>
+	    </dependencies>
+	</profile>
+	<profile>
+	    <id>postgresql</id>
+	    <activation>
+		<activeByDefault>false</activeByDefault>
+	    </activation>
+	    <dependencies>
+		<dependency>
+		    <groupId>com.broadleafcommerce</groupId>
+		    <artifactId>broadleaf-boot-starter-database</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		</dependency>
+	    </dependencies>
+	</profile>
+    </profiles>
+</project>

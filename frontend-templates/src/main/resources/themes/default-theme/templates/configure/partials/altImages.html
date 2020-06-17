@@ -1,0 +1,9 @@
+<div id="productThumbsContainer" style="display: none;">
+    <ul id="productThumbs" class="js-productThumbs clearfix">
+        <li th:each="media, iterStat : *{media}">
+            <a href="#" th:attr="data-tags=${media.value.tags}">
+                <img blc:src="@{${media.value.url}}" alt="Bottle Closeup" />
+            </a>
+        </li>
+    </ul>
+</div>

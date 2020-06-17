@@ -1,0 +1,18 @@
+<th:block th:if="${sc != null and sc.values[relatedProductsType] != null and sc.values[relatedProductsMaxNum] !=null}">
+    <header th:if="${sc.values[headerText] != null}">
+        <span th:text="${sc.values[headerText]}">Featured Products</span>
+    </header>
+    <div id="options">
+        <div class="section" th:object="${category}">
+            <ul class="js-featuredProducts"
+                th:with="relatedProducts=${#related_products.findByCategory(category.id, sc.values[relatedProductsMaxNum], sc.values[relatedProductsType])}">
+                <li th:each="product : ${relatedProducts}"
+                    th:object="${product}"
+                    th:if="${product.isActive()}"
+                    class="js-productContainer">
+                    <th:block th:include="catalog/partials/productListItem" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</th:block>

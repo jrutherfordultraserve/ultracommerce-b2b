@@ -1,0 +1,31 @@
+<div class="js-itemPrice item-price" th:attr="data-baseprice=*{displayPrice}, data-overridden=*{hasOverridenPrice}">
+    <span class="item-price-span">
+        <th:block th:unless="*{#strings.equals(displayPrice, '0.00')}" blc:price="*{displayPrice}" />
+        <th:block th:if="*{#strings.equals(displayPrice, '0.00')}">Included</th:block>
+    </span>
+    <span> x </span>
+
+    <!-- Item Quantity -->
+    <th:block th:object="${item}">
+        <th:block th:if="*{isMultiSelect or minQuantity != maxQuantity}">
+            <select th:value="${option != null ? option.quantity : item.quantity}" class="js-quantityInput"
+                    th:name="${'childOrderItems[' + itemIndex + '].quantity'}"
+                    th:attr="data-orig-min=*{minQuantity},data-orig-max=*{maxQuantity}"
+                    th:with="computedMaxQty=*{maxQuantity != null ? maxQuantity : 9}, computedMinQty=*{isMultiSelect ? 0 : minQuantity}">
+                <option th:each="i : ${#numbers.sequence(computedMinQty, computedMaxQty)}"
+                        th:selected="${i} == ${option != null ? option.quantity : item.quantity}"
+                        th:value="${i}"
+                        th:text="${i}">
+                </option>
+            </select>
+        </th:block>
+
+        <th:block th:unless="*{isMultiSelect or minQuantity != maxQuantity}">
+            <th:block th:utext="*{minQuantity}" />
+            <input type="hidden" th:name="${'childOrderItems[' + itemIndex + '].quantity'}" th:value="*{minQuantity}" />
+        </th:block>
+    </th:block>
+</div>
+<div class="js-outOfStock out-of-stock is-hidden">
+    Out of Stock
+</div>

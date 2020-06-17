@@ -1,0 +1,19 @@
+<div id="ready_only_pay_pal_payment_method" class="read-only-paypal-payment-method-container" th:fragment="read-only">
+    <div class="row">
+        <div class="col-sm-3 text-center-mobile">
+            <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"/>
+        </div>
+        <div class="col-sm-9" th:utext="#{checkout.paymentMethod.payPal.readOnly.message}"></div>
+    </div>
+</div>
+
+<div id="pay_pal_payment_method" class="paypal-payment-method-container" th:fragment="form">
+    <div class="row">
+        <div class="col-sm-3 text-center-mobile">
+            <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"/>
+        </div>
+        <div class="col-sm-9">
+            To accept PayPal Express transactions, you'll need to complete the <a href="https://www.broadleafcommerce.com/docs/paypal/current/paypal-quick-start" class="js-payPalQuickStartLink">PayPal Quick Start setup</a>.
+        </div>
+    </div>
+</div>

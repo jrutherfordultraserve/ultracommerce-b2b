@@ -1,0 +1,168 @@
+<div class="js-itemWrapper itemWrapper" th:each="item, iterStat : ${parent.childOrderItems}" th:object="${item}" th:attr="data-item-index=${item.orderItemIndex}">
+
+    <span class="js-itemErrorSpan error" style="display: none;"></span>
+    <span class="js-itemPoErrorSpan error" style="display: none;"><span th:utext="#{product.allOptionsRequired}">All options are required</span></span>
+
+    <!-- Display label -->
+    <div class="display-label row" th:if="*{additionalAttributes.get('addOnLabel')}" th:unless="*{product}">
+        <div class="col12">
+            <label th:for="${'childOrderItems[' + item.orderItemIndex + '].productId'}" >
+                <span th:utext="*{additionalAttributes.get('addOnLabel')}"></span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Display specific products or 'Choose Ones' -->
+    <th:block th:unless="*{isMultiSelect}">
+        <div class="js-configureRow row configureRow">
+            <div class="col8">
+                <!-- Product Specified -->
+                <div th:if="*{product}" class="row">
+                    <!-- Product Image-->
+                    <div class="col3">
+                        <img class="js-mainItemImage" th:if="*{product.media['primary']}" blc:src="@{*{product.media['primary'].url} + '?browse'}" alt="Sauce Image" />
+
+                        <!-- Alt images -->
+                        <div th:object="${item.product}" th:include="configure/partials/altImages"></div>
+                    </div>
+
+                    <!-- Product Name-->
+                    <div class="col9 configure-title">
+                        <div th:utext="*{product.name}"></div>
+                    </div>
+
+                    <!-- Product Options if any -->
+                    <th:block th:if="*{!#lists.isEmpty(product.productOptions)}" th:object="${item.product}">
+                        <a href="#" class="configure-product-options">View Product Options</a>
+                        <div style="display: none;" th:id="${'productOptions' + item.product.id}" class="child-product-options">
+                            <h3 th:utext="*{name}"></h3>
+                            <div th:with="itemIndex=${item.orderItemIndex}, addOnXrefId=${item.additionalAttributes.get('addOnXrefId')}"
+                                 th:include="configure/partials/configureProductOptions"></div>
+                        </div>
+                    </th:block>
+
+                    <input type="hidden" th:name="${'childOrderItems[' + item.orderItemIndex + '].productId'}" th:value="*{product.id}" />
+                </div>
+
+                <!-- Choose One Dropdown -->
+                <div th:unless="*{product}" class="row">
+                    <!-- Product Image-->
+                    <div class="col3">
+                        <img class="js-mainItemImage" src="https://placehold.jp/28/bbafae/ffffff/60x60.png?text=%3F" alt="Choose a Product" />
+                    </div>
+                    <!-- Product Name-->
+                    <div class="col9 configure-title">
+                        <th:block th:if="*{productChoices}">
+                            <select class="js-configure-product-choices" th:name="${'childOrderItems[' + item.orderItemIndex + '].productId'}">
+                                <th:block th:if="*{additionalAttributes.get('chooseOneDefaultProductId')}">
+                                    <option th:each="option : *{productChoices}"
+                                            th:value="${option.product.id}"
+                                            th:text="#{${option.product.name}}"
+                                            th:attr="data-displayPrice=${option.displayPrice}"
+                                            th:selected="${#strings.equals(item.additionalAttributes.get('chooseOneDefaultProductId'), option.product.id)}"></option>
+                                </th:block>
+                                <th:block th:unless="*{additionalAttributes.get('chooseOneDefaultProductId')}">
+                                    <option disabled="disabled" selected="selected" value=""></option>
+                                    <option th:each="option : *{productChoices}"
+                                            th:value="${option.product.id}"
+                                            th:text="#{${option.product.name}}"
+                                            th:attr="data-displayPrice=${option.displayPrice}"></option>
+                                </th:block>
+                            </select>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div class="col2 centered">
+                <input type="number" th:readonly="*{minQuantity == maxQuantity}" style="width:30px;"
+                    th:name="${'childOrderItems[' + item.orderItemIndex + '].quantity'}" class="js-quantityInput quantityInput"
+                    th:value="*{quantity}" th:attr="data-orig-min=*{minQuantity},data-orig-max=*{maxQuantity}"
+                    th:min="*{minQuantity}" th:max="*{maxQuantity}" autocomplete="off"/>
+                <span th:unless="*{minQuantity == maxQuantity}" class="js-quantityRange">
+                    <br />
+                    (<span class="minQty" th:utext="*{minQuantity}"></span> - <span class="maxQty" th:utext="*{maxQuantity}"></span>)
+                </span>
+                <div class="js-outOfStock out-of-stock is-hidden">
+                    Out of Stock
+                </div>
+            </div>
+            <div class="col2">
+                <div class="js-itemPrice itemPrice" th:attr="data-baseprice=*{displayPrice},data-overridden=*{hasOverridenPrice}">
+                    <span th:unless="*{#strings.equals(displayPrice, '0.00')}" blc:price="*{displayPrice}"></span>
+                    <span th:if="*{#strings.equals(displayPrice, '0.00')}">Included</span>
+                </div>
+            </div>
+
+            <!-- Any existing item attributes for this product-->
+            <div class="item-attributes">
+                <input th:each="entry : *{itemAttributes}" type="hidden" th:name="${entry.key}" th:value="${entry.value}" />
+            </div>
+
+            <!-- Any additional attributes for this product-->
+            <th:block th:each="entry : *{additionalAttributes}">
+                <input type="hidden" th:name="${'childOrderItems[' + item.orderItemIndex + '].additionalAttributes[' + entry.key + ']'}" th:value="${entry.value}" />
+            </th:block>
+        </div>
+    </th:block>
+
+    <!-- Display 'Choose Multiples' -->
+    <th:block th:if="*{isMultiSelect}">
+        <div class="js-configureRow row configureRow" th:each="option, choiceStat : *{productChoices}">
+            <div class="col8">
+                <!-- Product Specified -->
+                <div class="row">
+                    <!-- Product Image-->
+                    <div class="col3">
+                        <img class="js-mainItemImage" th:if="${option.product.media['primary']}" blc:src="@{${option.product.media['primary'].url} + '?browse'}" alt="Sauce Image" />
+
+                        <!-- Alt images -->
+                        <div th:object="${option.product}" th:include="configure/partials/altImages"></div>
+                    </div>
+
+                    <!-- Product Name-->
+                    <div class="col9 configure-title">
+                        <div th:utext="${option.product.name}"></div>
+                    </div>
+
+                    <!-- Product Options if any -->
+                    <th:block th:if="${!#lists.isEmpty(option.product.productOptions)}" th:object="${option.product}">
+                        <a href="#" class="configure-product-options">View Product Options</a>
+                        <div style="display: none;" th:id="${'productOptions' + option.product.id}" class="child-product-options">
+                            <h3 th:utext="*{name}"></h3>
+                            <div th:with="itemIndex=${(item.orderItemIndex + choiceStat.index)}, addOnXrefId=${option.additionalAttributes.get('addOnXrefId')}"
+                                 th:include="configure/partials/configureProductOptions"></div>
+                        </div>
+                    </th:block>
+
+                    <input type="hidden" th:name="${'childOrderItems[' + (item.orderItemIndex + choiceStat.index) + '].productId'}" th:value="${option.product.id}" />
+                </div>
+            </div>
+            <div class="col2 centered">
+                <input type="number" style="width:30px;"
+                       th:name="${'childOrderItems[' + (item.orderItemIndex + choiceStat.index) + '].quantity'}" class="js-quantityInput quantityInput"
+                       th:value="${option.quantity}" th:attr="data-orig-min=*{minQuantity},data-orig-max=*{maxQuantity}"
+                       min="0" th:max="*{maxQuantity}" autocomplete="off"/>
+
+                <div class="js-outOfStock out-of-stock is-hidden">
+                    Out of Stock
+                </div>
+            </div>
+            <div class="col2">
+                <div class="js-itemPrice itemPrice" th:attr="data-baseprice=${option.displayPrice}">
+                    <span th:unless="${#strings.equals(option.displayPrice, '0.00')}" blc:price="${option.displayPrice}"></span>
+                    <span th:if="${#strings.equals(option.displayPrice, '0.00')}">Included</span>
+                </div>
+            </div>
+
+            <!-- Any existing item attributes for this product-->
+            <div class="item-attributes">
+                <input th:each="entry : ${option.itemAttributes}" type="hidden" th:name="${entry.key}" th:value="${entry.value}" />
+            </div>
+
+            <!-- Any additional attributes for this product-->
+            <th:block th:each="entry : ${option.additionalAttributes}">
+                <input type="hidden" th:name="${'childOrderItems[' + (item.orderItemIndex + choiceStat.index) + '].additionalAttributes[' + entry.key + ']'}" th:value="${entry.value}" />
+            </th:block>
+        </div>
+    </th:block>
+</div>

@@ -1,0 +1,54 @@
+<div class="js-productContainer js-productConfigure productContainer productConfigure container" th:object="${baseItem.product}">
+    <div class="row">
+        <blc:form method="POST" th:action="@{/cart/add}">
+            <div class="base_product col4">
+                <!-- Product Image-->
+                <div class="js-image image">
+                    <img th:if="*{media['primary']}" blc:src="@{*{media['primary'].url} + '?browse'}" alt="Sauce Image" />
+                    <div class="price" th:if="${#object instanceof T(org.broadleafcommerce.core.catalog.domain.ProductBundle)}">
+                        <div blc:price="*{salePrice}" th:if="*{onSale}" th:classappend="*{defaultSku.onSale}? 'sale'"></div>
+                        <div blc:price="*{retailPrice}" th:classappend="*{onSale}? 'has-sale'"></div>
+                    </div>
+                    <div class="price" th:unless="${#object instanceof T(org.broadleafcommerce.core.catalog.domain.ProductBundle)}">
+                        <div blc:price="*{defaultSku.salePrice}" th:if="*{defaultSku.onSale}" th:classappend="*{defaultSku.onSale}? 'sale'"></div>
+                        <div blc:price="*{defaultSku.retailPrice}" th:classappend="*{defaultSku.onSale}? 'has-sale'"></div>
+                    </div>
+                </div>
+
+                <!-- Base Product's Name, Manufacturer and Description -->
+                <div class="content">
+                    <div class="title" th:utext="*{name}"></div>
+                    <div class="maker" th:utext="*{manufacturer}"></div>
+                    <p th:utext="*{longDescription}"></p>
+                </div>
+
+                <!-- Base Product's Product Options -->
+                <div class="js-productOptions productOptions" th:replace="catalog/partials/productOptions"></div>
+
+                <input th:unless="${isUpdateRequest}" type="submit" class="js-addToCart add-to-cart" th:value="#{product.addToCart}"/>
+                <input th:if="${isUpdateRequest}" type="submit" class="js-addToCart add-to-cart" th:value="#{product.update}"/>
+
+                <!-- Any additional attributes for this product-->
+                <th:block th:each="entry : ${baseItem.additionalAttributes}">
+                    <input type="hidden" th:name="${'additionalAttributes[' + entry.key + ']'}" th:value="${entry.value}" />
+                </th:block>
+            </div>
+
+            <div class="col8">
+                <!-- Show all child order items -->
+                <div th:include="configure/partials/configureChildItems" th:with="parent=${baseItem}"></div>
+            </div>
+
+            <input type="hidden" name="isUpdateRequest" th:value="${isUpdateRequest}" />
+            <input type="hidden" name="originalOrderItem" th:value="${originalOrderItem}" />
+
+            <input type="hidden" name="productId" th:value="*{id}" />
+            <input type="hidden" name="skuId" th:value="*{defaultSku.id}" />
+            <input type="hidden" name="quantity" value="1" />
+            <input type="hidden" name="hasProductOptions" th:value="${!#lists.isEmpty(baseItem.product.productOptions)}" />
+        </blc:form>
+        <div class="configure-product-options-overlay" style="display: none;"></div>
+    </div>
+
+    <blc:uncacheableData />
+</div>
