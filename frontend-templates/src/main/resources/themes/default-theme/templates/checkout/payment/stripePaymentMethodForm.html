@@ -1,0 +1,23 @@
+
+
+<div id="stripe_credit_card_payment_method"  th:fragment="form">
+    <div class="row">
+        <form action="/checkout/stripe/complete" method="POST" th:inline="javascript">
+            <script
+                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    th:attr="data-key=${#stripe.generateClientToken()},data-amount=${#stripe.calculateTransactionTotal(paymentRequestDTO)}"
+                    data-name="Demo Site"
+                    data-description="Widget"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto">
+            </script>
+<!--
+            <input type="hidden" th:name="${@blExploitProtectionService.getCsrfTokenParameter()}" th:value="${@blExploitProtectionService.getCSRFToken()}" />
+   -->
+        </form>
+
+        <div class="col-sm-9">
+            To accept PayPal Express transactions, you'll need to complete the <a href="https://www.broadleafcommerce.com/docs/paypal/current/paypal-quick-start" class="js-payPalQuickStartLink">PayPal Quick Start setup</a>.
+        </div>
+    </div>
+</div>

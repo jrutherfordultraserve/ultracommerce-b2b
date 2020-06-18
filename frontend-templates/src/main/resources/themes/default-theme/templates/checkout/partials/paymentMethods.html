@@ -26,9 +26,17 @@
                 <li class="center-pill" data-value="PayPal" th:classappend="${#paymentMethod.cartContainsThirdPartyPayment()}? 'active'">
                     <a href="#PayPal" data-toggle="pill" th:utext="#{checkout.paymentMethod.payPal}">PayPal</a>
                 </li>
+                <li class="center-pill" data-value="AuthorizeNet" th:classappend="${#paymentMethod.cartContainsThirdPartyPayment()}? 'active'">
+                    <a href="#AuthorizeNet" data-toggle="pill" th:utext="#{checkout.paymentMethod.authorizenet}">Authorize.Net</a>
+                </li>
                 <li class="center-pill" data-value="COD">
                     <a href="#COD" data-toggle="pill" th:utext="#{checkout.paymentMethod.cod}">Collect On Delivery</a>
                 </li>
+                <!--
+                <li class="center-pill" data-value="AuthorizeNet" th:classappend="${#paymentMethod.cartContainsThirdPartyPayment()}? 'active'">
+                    <a href="#Stripe" data-toggle="pill" th:utext="Stripe">Stripe</a>
+                </li>
+                -->
             </ul>
         </div>
     </div>
@@ -42,9 +50,17 @@
                 <div id="PayPal" class="tab-pane" th:classappend="${#paymentMethod.cartContainsThirdPartyPayment()}? 'active'">
                     <th:block th:replace="~{checkout/payment/payPalPaymentMethodForm :: form}" />
                 </div>
+                <div id="AuthorizeNet" class="tab-pane" th:classappend="${#paymentMethod.cartContainsThirdPartyPayment()}? 'active'">
+                    <th:block th:replace="~{checkout/payment/authorizenetPaymentMethodForm :: form}" />
+                </div>
                 <div id="COD" class="tab-pane">
                     <th:block th:replace="~{checkout/payment/codPaymentMethodForm :: form}" />
                 </div>
+                <!--
+                <div id="Stripe" class="tab-pane" th:classappend="${#paymentMethod.cartContainsThirdPartyPayment()}? 'active'">
+                    <th:block th:replace="~{checkout/payment/stripePaymentMethodForm :: form}" />
+                </div>
+                -->
             </div>
         </div>
     </div>
